@@ -125,3 +125,63 @@ export class AppComponent  {
 
 ### Template
 
+De template is de view die in de applicatie moet gerendered worden, en bevat 
+
+- HTML Code
+- Class Properties
+
+```
+
+ template: `<h1>Hello {{name}}</h1>`,
+ 
+  ```
+  
+  Hier zie je dat we gebruik maken van de name property van de klasse die wordt gelinkt in de HTML code.
+  
+  ### Metadata
+  
+  Dit wordt gebruikt om de Angular JS klasse met extra informatie te decoreren.
+  
+
+```
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: `<h1>Hello {{name}}</h1>`,
+})
+export class AppComponent  { 
+  
+  name = 'Angular'; 
+  woonplaats:string = "Westerlo";
+
+
+}
+
+```
+
+In bovenstaand voorbeeld importeren we de component decorator van de angular/core module.
+
+Daarna gebruiken we de @Component om zelf onze component te definiëren.
+
+De component heeft een selector "my-app". Dit is onze HTML tag die we in onze hoofd HTML pagina kunnen gebruiken (index.html)
+
+```
+
+<body>
+    <my-app>Loading AppComponent content here ...</my-app>
+  </body>
+  
+```
+
+####  template methoden
+
+Inline template: 
+
+```
+ template: `<h1>Hello {{name}}</h1>`,
+ 
+```
+
+
