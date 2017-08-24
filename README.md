@@ -75,6 +75,10 @@ Visual Studio Code zal automatisch je bestanden compileren en van je TypeScript 
 
 de Node Package Manager zal een lite web server starten en je Angular Applicatie opstarten.
 
+Werk je met de CLI dan typ je :
+
+> ng serve --open
+
 ## Modules
 
 Modules worden gebruikt om logica in je applicatie te creëeren, zodat je verschillende modules aanmaakt om je functionaliteit van je applicatie te verdelen.
@@ -98,7 +102,7 @@ export class AppModule { }
 ```
 De import statements worden gebruikt om functionaliteit van andere modules in te laden.
 
-de @NgModule decorator wordt gebruikt om de imports, declarations en bootstap te definiëren:
+de @NgModule decorator wordt gebruikt om de imports, declarations en bootstrap te definiëren:
 
 - BrowserModules: is default voor web based angular applicaties
 
@@ -119,6 +123,7 @@ Een component bestaat uit :
 En elke applicatie is opgebouwd uit modules ( elke applicatie heeft minstens een root module), die dan uit verschillende componenten kan bestaan.
 
 ## Componenten
+
 Ga naar app.component.ts:
 
 ### Klasse
@@ -133,7 +138,7 @@ export class AppComponent  { name = 'Angular'; }
 
 - name is een property
 
-> Maak een nieuwe property aan
+> TODO: Maak een nieuwe property aan
 
 ```
 
@@ -233,7 +238,7 @@ De app.component.html ziet er dan bijvoorbeeld als volgt uit:
 
 Een directive is een custom HTML element om de kracht van HTML verder uit te breiden.
 
-Als we naar eht app.module.ts bestand kijken
+Als we naar het app.module.ts bestand kijken
 
 ```
 import { NgModule }      from '@angular/core';
@@ -346,7 +351,7 @@ export class Product {
 
 # Display data
 
-We leggen het tonen van data uit aan de hand van een voorbeeld:
+We leggen de display van data uit aan de hand van een voorbeeld:
 
 We maken een nieuwe componenent aan:
 
@@ -446,6 +451,7 @@ export class BindingComponent {
         this.status = !this.status;
    }
 }
+
 ```
 
 # Project 1 : Guess the number
@@ -1066,7 +1072,7 @@ Nu moeten we de app.component.ts file nog aanpassen:
 Next, we define a variable of the type Http which will be used to get the response from the data source.
 
 
-# HttpClient
+# HttpClient!!
 
 https://alligator.io/angular/httpclient-intro/
 
