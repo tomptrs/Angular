@@ -41,6 +41,248 @@ We moeten zeker Typescript 2.1.6 of hoger gebruiken
 
 > npm install typescript@2.2.1 --save
 
+
+# Introductie TypeScript
+
+TypeScript is een superset van JavaScript ontwikkeld door Microsoft. Dankzijn TypeScript hebben we de mogelijkheid om classes, interfaces naar JavaScript te brengen.
+
+## Declaration In TypeScript 
+
+const om een constante aan te maken, en let om een variabele te declareren:
+
+```
+let  name = "TypeScript"; 
+name = "nodejs"; 
+const pi = 3.141;
+```
+Eens een variabele een type heeft, kan dit niet meer veranderd worden. Je kan ook het type reeds meegeven (na de variabele gevolgd door een dubbel punt: ):
+
+```
+let name: string = "TypeScript";
+```
+
+### Types:
+
+```
+let isDone: boolean = false;
+```
+
+
+Alle getallen zijn floating point waarden in TypeScript (net zoals in JavaScript).
+```
+let loc: number = 600;
+```
+
+Voor strings kan je dubbele quotes (") , of enkele quotes (') gebruiken:
+
+```
+let name = "typescript"; name = "java";
+```
+
+
+TypeScript supporteert ook multiline strings, door gebruik te maken van de backtick:`´`
+
+```
+let subject: string = `TypeScript is awesome. Google adapting a language developed at Microsoft, shows how awesome it is.`
+```
+
+Nog een voorbeeld:
+```
+let customerName: string = `Tom`; 
+let bedrag: number = 1000; 
+let email: string = `Hallo ${customerName}, je bedrag is: ${invoiceAmount}. Thank you.`
+```
+
+#### any
+Wanneer je het datatype niet weet kan je gebruik maken van any
+
+```
+let testVar: any; 
+```
+
+#### Void 
+
+Indien geen datatype moet meegegeven worden, kan je gebruik maken van void: (je functie geeft geen waarde terug):
+
+```
+function showWarning(): void 
+{
+   alert("This is a warning")
+}
+```
+
+## Arrays 
+
+
+let cities: string[] = ['delhi', 'chennai', 'mumbai']; 
+let cities: Array<string> = ['delhi', 'chennai', 'mumbai'];
+
+## Eum
+
+Enums worden gebruikt om een gebruikersvriendelijke naam te geven aan numerieke waarden, bijvoorbeeld:
+
+```
+enum Day {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday}; 
+
+let firstDay: Day = Day.Sunday;
+```
+
+Default begint de nummering bij 0, maar je kan dit overriden:
+
+```
+enum Day {Sunday = 1, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday}; 
+
+enum Direction {North = 2, South = 4, East = 6, West = 8}; 
+
+```
+
+## for of
+
+
+Om over collecties te loopen kan je gebruik maken van de for of loop:
+
+```
+let cities: string[] = ['delhi', 'chennai', 'mumbai'];
+for (let city of cities) 
+{        
+    alert(city); 
+}
+```
+
+## Functies 
+
+Voorbeelden:
+
+```
+function squareOf(i: number): number 
+{
+ return i * i; 
+};
+
+function squareOf(i: number) 
+{
+ return i * i 
+};
+
+```
+
+
+Je kan functies toewijzen aan variabelen, en functies doorgegeven als parameter. Je kan ook anonymous functies schrijven:
+
+```
+let sqr1 = function sqr (i: number) : number 
+{
+ return i * i; 
+ }
+ 
+// anonymous function 
+let sqr2 = function (i: number) : number 
+{ 
+  return i * i; 
+}
+
+```
+Alternatief voor anonieme functies door gebruik te maken van =>
+
+```
+let sqr3 = (i: number) : number => { return i * i;}
+```
+
+of
+```
+let sqr4 = (i: number)  => { return i * i;}
+```
+
+// de return is zelfs optioneel:
+```
+let sqr5 = (i: number) => i * i
+```
+
+### Optional and Default values 
+
+Functies kunnen optionele waarden aannemen door gebruik te maken van ?:
+```
+function getFullName(firstName: string, lastName?: string) : string {
+   if(lastName) {
+        return firstName + " " + lastName;        
+        } 
+   else {
+        return firstName        
+        }
+}
+```
+
+Default waarden worden als volgt meegegeven:
+
+```
+function getFullName(firstName: string, lastName: string = "") : string {       
+return (firstName + " " + lastName).trim(); 
+}
+```
+
+## Klassen
+
+Dankzij TypeScript kunnen we object georienteerd design toepassen in JavaScript:
+
+```
+class Book {        
+    name: string;        
+    purchasedYear: number;
+    
+    constructor (name: string, purchasedYear: number){                   this.name = name;
+        this.purchasedYear = purchasedYear;        
+        }
+    }
+    
+let Book1 = new Book('7 habits', 2005)
+```
+
+### Overerving
+
+```
+class Asset {        
+    name: string;        
+    purchasedYear: number;
+    
+    constructor (name: string, purchasedYear: number){                  this.name = name;                
+        this.purchasedYear = purchasedYear;        
+        }
+}
+
+class Book extends Asset {        
+    constructor (name: string, purchasedYear: number) {                 super(name, purchasedYear)        
+    } 
+} 
+
+let book1 = new Book('7-habits', 2013);
+
+```
+
+### Interface
+
+interface iAsset {        
+    name: string;        
+    purchasedYear: number;        
+    age: () => number; 
+}
+
+
+class Book implements iAsset{        
+    name: string;        
+    purchasedYear: number;
+    
+    constructor (name: string, purchasedYear: number){                   this.name = name;
+        this.purchasedYear = purchasedYear;        
+    }        
+    
+    age() {                
+        return (2016 - this.purchasedYear);        
+        }
+}
+
+let Book1 = new Book('7 habits', 2005) alert(Book1.age)
+
+```
 # Gebruik maken van CLI ~ Command Line Interface 
 
 1. npm install -g @angular/cli
