@@ -260,6 +260,7 @@ let book1 = new Book('7-habits', 2013);
 
 ### Interface
 
+```
 interface iAsset {        
     name: string;        
     purchasedYear: number;        
@@ -283,7 +284,9 @@ class Book implements iAsset{
 let Book1 = new Book('7 habits', 2005) alert(Book1.age)
 
 ```
+
 # Gebruik maken van CLI ~ Command Line Interface 
+
 
 1. npm install -g @angular/cli
 
