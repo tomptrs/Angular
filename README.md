@@ -285,6 +285,13 @@ let Book1 = new Book('7 habits', 2005) alert(Book1.age)
 
 ```
 
+TypeScript moet gecompileerd worden naar JavaScript:
+
+> tsc boek.ts
+
+> node boek.js
+
+
 # Gebruik maken van CLI ~ Command Line Interface 
 
 
@@ -353,7 +360,7 @@ de @NgModule decorator wordt gebruikt om de imports, declarations en bootstrap t
 
 - bootstrap: geeft aan welke componenten te 'bootstrappen' in de applicatie, zodat de functionaliteit kan gebruikt worden in de appliatie. Als je de component in de bootstrap array hebt gezet, moet je hem ook declareren, zodat de andere componenten hem kunnen gebruiken.
 
-## Anatomy van een Angular 2 applicatie
+## Anatomie van een Angular 2 applicatie
 
 Een applicatie bestaat uit verschillende componenten die elke een logisch deel van de functionaliteit bevat. Verder kan je gebruik maken van services die worden gebruikt om code tussen de verschillende componenten te delen.
 
@@ -581,19 +588,6 @@ zie ngFor
 
 Met Angular 2 kunnen we gebruik maken van forms die door de ngModel directive 2-way binding kunnen aanbieden.
 
-We maken bijvoorbeeld eerst een model aan:
-
-Product.ts
-
-```
-export class Product { 
-   constructor ( 
-      public productid: number, 
-      public productname: string 
-   ) {  } 
-}
-```
-
 # Display data
 
 We leggen de display van data uit aan de hand van een voorbeeld:
@@ -699,7 +693,110 @@ export class BindingComponent {
 
 ```
 
-# Project 1 : Guess the number
+# Project : Teller
+
+We maken een model aan, namelijk de klasse Teller die een getal bewaart. De klasse bevat methodes om het getal met 1 te verhogen, of te verlagen, ofwel tot nul te resetten.
+
+
+```
+export class Teller{
+
+    getal:number;
+    constructor(){
+        this.getal = 0;
+    }
+
+    Verhoog():void{
+        this.getal++;
+    }
+
+    Verlaag():void{
+        this.getal--;
+    }
+
+    Reset():void{
+        this.getal=0;
+    }
+
+    print(){
+        return this.getal;
+    }
+}
+```
+
+In de app.component.ts file schrijven we:
+
+```
+
+import { Component } from '@angular/core';
+import {Teller} from './Model/counter';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'app';
+
+   teller:Teller;
+
+  constructor(){
+    this.teller = new Teller();
+  }
+
+  Verhoog(){
+    this.teller.Verhoog();
+  }
+
+  Verlaag(){
+    this.teller.Verlaag();
+  }
+  Reset(){
+    this.teller.Reset();
+  }
+
+  Toon(){
+    return this.teller.print();
+  }
+}
+
+```
+
+In de app.component.html schrijven we:
+
+```
+<div>
+
+  <button (click)="Verhoog()">+1</button>
+  <button (click)="Verlaag()">-1</button>
+  <button (click)="Reset()">Reset</button>
+
+  {{Toon()}}
+
+</div>
+```
+### Interpolatie
+
+{{}} = interpolatie: is een vorm van databinding. Het binden van een waarde van een component aan HTML.
+
+### Binden van events
+
+Door bijvoorbeeld (click) luister je naar events. Het is een een-wegs databinding.
+
+```
+<button (click)="Verhoog()">+1</button>
+```
+
+### Two-Way Binding 
+
+Als je een property wil tonen, maar ook deze wil veranderen als de gebruiker de property in de UI update, moet je gebruik maken van two-way binding:
+
+```
+<input [(ngModel)]="eenProperty">
+```
+
+# Project : Guess the number
 
 Beschrijving componenten
 
@@ -1231,7 +1328,120 @@ We gevende callback function als een argument van de Promise then methode in de 
 Meer uitleg over Promises:
 > http://exploringjs.com/es6/ch_promises.html
 
+# Project: 'Those famous quotes'
 
+We maken eerst onze service aan:
+
+```
+import { 
+   Injectable 
+} from '@angular/core';  
+
+import { HttpClient } from '@angular/common/http';
+import { quote } from './Model/quote';
+
+
+@Injectable()
+export class QuoteService {  
+  
+
+    constructor(private _http:HttpClient){
+      
+    }
+
+    
+    GetQuoteOfTheDay(){
+        
+         let promise = new Promise((resolve, reject) => {
+             
+            this._http.get<any>("http://quotes.rest/qod.json").subscribe(res=>{
+                let q:quote = res.contents.quotes[0];
+                //console.log(q.author);
+                resolve(q);
+            });
+   
+        });
+            return promise;              
+        
+  }
+  
+}
+```
+
+De functie GetQuoteOfTheDay() roept de REST service asynchroon op, met behulp van Promises. Wanneer we van de Rest Service een callback krijgen, wordt dit in de anonymous functie van subscribe gebracht.
+Via resolve(q) sturen we onze data door.
+
+We maken een nieuwe component aan:
+
+```
+import { Component } from '@angular/core';
+import {QuoteService} from './QuoteService';
+import {quote} from './Model/quote';
+
+
+@Component({
+  selector: 'quote-list',
+  templateUrl: './quotesList.component.html',
+  styleUrls: ['./app.component.css'],
+  providers:[QuoteService]
+})
+export class QuoteListComponent {
+   
+    aQuote:quote;
+
+    constructor(private _quoteService: QuoteService){
+            this.aQuote = new quote();
+    }
+    GetQuote(){
+        this._quoteService.GetQuoteOfTheDay().then(data=>{
+           
+           this.aQuote = data as quote;
+          
+
+        });;
+    }
+}
+```
+In de GetQuote() functie maken we gebruik van then. Op deze manier vang je de callback van een Promise op.
+
+De code "data as quote" is een manier hoe je in TypeScript cast.
+De service wordt aan de component gehangen via de providers array.
+
+In de app.module importeren we onze nieuwe component, en voegen we de component toe aan de declarations array:
+```
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component'; 
+import { QuoteListComponent } from './quotesList.component';
+
+
+
+@NgModule({
+  declarations: [
+    AppComponent,QuoteListComponent
+  ],
+  imports: [
+    BrowserModule,HttpClientModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { 
+
+ 
+
+}
+```
+
+In de app.component.html voegen we onze quote-list directive toe:
+
+```
+
+<quote-list></quote-list>
+  
+```
 
 # Crud
 
