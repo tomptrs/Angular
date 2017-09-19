@@ -3,6 +3,7 @@
 
 ## Beschrijving
 
+bla bla bla
 
 # Project 2 : Interactiv School
 
